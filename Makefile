@@ -1,13 +1,14 @@
 CC=clang
 CFLAGS=-Werror -Wextra -Wall -std=c89 -I libft/includes -I include
 LIBFLAGS=-L libft/ -lft
-TESTFLAGS=-I include test/test.c -o test/test -g
-WANTFLAGS=-I include test/want.c -o test/want -g
+TESTFLAGS=-I include test/test.c -o test/test
+TEST2FLAGS=-I include test2/test.c -o test2/test
+WANTFLAGS=-I include test/want.c -o test/want
 NAME=libftprintf.a
-SRC=ft_printf.c fmt.c digit.c character.c
-OBJ=$(SRC:%.c=%.o)
+SRC=$(wildcard src/*)
+OBJ=$(SRC:src/%.c=%.o)
 
-.PHONY: clean fclean all re norm norme debug
+.PHONY: clean fclean all re norm norme debug test test2
 
 VPATH = src obj libft/includes include
 
@@ -32,7 +33,12 @@ fclean: clean
 
 re: fclean all
 
-test: re
+test2: $(NAME)
+	@cc -L . -lftprintf $(LIBFLAGS) $(TEST2FLAGS)
+	./test2/test
+	@rm -f test2/test
+
+test: $(NAME)
 	@sed s/ft_printf/printf/g test/test.c > test/want.c
 	@cc -L . -lftprintf $(LIBFLAGS) $(TESTFLAGS)
 	@cc -L . -lftprintf $(LIBFLAGS) $(WANTFLAGS)

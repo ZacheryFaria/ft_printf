@@ -6,12 +6,14 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/30 12:59:43 by awindham          #+#    #+#             */
-/*   Updated: 2019/01/16 14:08:16 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/01/17 11:02:09 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFTPRINTF_H
 # define LIBFTPRINTF_H
+
+# include <stdarg.h>
 
 enum	e_fmt_flag
 {

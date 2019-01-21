@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   character.c                                        :+:      :+:    :+:   */
+/*   c.c                                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 13:43:30 by zfaria            #+#    #+#             */
-/*   Updated: 2019/01/16 13:43:31 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/01/18 15:39:00 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-char	*c(char *fmt, int c)
+char	*c(char *fmt, char c)
 {
 	char	*new;
 	int		o;
@@ -24,6 +24,5 @@ char	*c(char *fmt, int c)
 	o = ft_strchri(fmt, '%');
 	new[o] = c;
 	ft_strcpy(&new[o + 1], &fmt[o + 2]);
-	free(fmt);
 	return (new);
 }

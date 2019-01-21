@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 13:42:50 by zfaria            #+#    #+#             */
-/*   Updated: 2019/01/18 09:40:11 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/01/18 15:41:30 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,33 +18,14 @@
 ** allowed: write, malloc, free, exit, stdarg(3)
 */
 
-int	nextflag(char *fmt)
-{
-	while (*fmt != 0)
-	{
-		if (*fmt == '%')
-		{
-			if (*(fmt + 1) == 'c')
-				return (e_c);
-			else if (*(fmt + 1) == 'd')
-				return (e_d);
-		}
-		fmt++;
-	}
-	return (0);
-}
-
 int	ft_printf(const char *fmt, ...)
 {
-	char		*outfmt;
 	va_list		args;
-	int			flag;
+	char		*str;
 
 	va_start(args, fmt);
-	outfmt = ft_strdup(fmt);
-	while ((flag = nextflag(outfmt)))
-		outfmt = format(args, outfmt, flag);
-	ft_putstr(outfmt);
+	str = format((char *)fmt, args);
 	va_end(args);
-	return (ft_strlen(outfmt));
+	ft_putstr(str);
+	return (1);
 }

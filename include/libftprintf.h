@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/30 12:59:43 by awindham          #+#    #+#             */
-/*   Updated: 2019/01/17 11:02:09 by zfaria           ###   ########.fr       */
+/*   Created: 2019/01/18 09:46:04 by zfaria            #+#    #+#             */
+/*   Updated: 2019/01/18 15:38:38 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,18 @@
 
 enum	e_fmt_flag
 {
-	e_c,
+	e_c = 1,
 	e_d
 };
 
 int		ft_printf(const char *fmt, ...);
 
-char	*format(va_list args, char *outfmt, int flag);
-char	*c(char *fmt, int c);
+char	*ft_vprintf(char *fmt, va_list args);
+char	*format(char *fmt, va_list args);
+char	*parse(char *fml, va_list args, int flag);
+int		get_flag(char *str);
+
+char	*c(char *fmt, char c);
 char	*d(char *fmt, int d);
 
 #endif

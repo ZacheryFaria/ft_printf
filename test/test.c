@@ -1,6 +1,8 @@
 #include <libftprintf.h>
+#include <stdio.h>
 
 int main(void)
 {
-	ft_printf("adsf\n", 1);
+	int resf = ft_printf("adsf %10.5s\n", "Hello world");
+	printf("\n%10.5s\n", "Hello world");
 }

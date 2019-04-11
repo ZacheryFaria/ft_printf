@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libftprintf.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: z <z@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 09:46:04 by zfaria            #+#    #+#             */
-/*   Updated: 2019/02/01 14:00:58 by z                ###   ########.fr       */
+/*   Updated: 2019/04/11 11:42:30 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,37 @@
 
 # include <stdarg.h>
 
-int				ft_printf(const char *fmt, ...);
-
-char			*fmt_c(char *str, char c);
-char			*fmt_s(char *fmt, char *str);
-
-typedef union	u_func
-{
-	char		*(*fmt_c)(char *, char);	
-	char		*(*fmt_s)(char *, char *);
-}				t_func;
-
 typedef struct	s_dispatch
 {
-	char		symb;
-	t_func		fmt;
+	char		*flag;
+	char		*(*fmt_func)();
 }				t_dispatch;
+
+typedef struct	s_fmtarg
+{
+	char		*fstr;
+	char		*vstr;
+	int			leftalign;
+	int			padding;
+	int			precision;
+	int			precisionb;
+	int			allsign;
+	int			longflag;
+	int			shortflag;
+	int			zeroflag;
+	int			spaceflag;
+}				t_fmtarg;
+
+typedef struct	s_fireres
+{
+	char		*str;
+	int			bytes;
+	int			offset;
+}				t_fireres;
+
+int				ft_printf(const char *fmt, ...);
+
+char			*fmt_c(char *str, char *c);
+char			*fmt_s(char *fmt, char *str);
 
 #endif

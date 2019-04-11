@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 09:46:04 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/11 11:42:30 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/11 12:16:36 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct	s_fmtarg
 	int			shortflag;
 	int			zeroflag;
 	int			spaceflag;
+	int			altfmt;
 }				t_fmtarg;
 
 typedef struct	s_fireres

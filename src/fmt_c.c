@@ -6,12 +6,15 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 12:46:47 by z                 #+#    #+#             */
-/*   Updated: 2019/04/10 14:53:00 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/11 15:37:49 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*fmt_c(char *str, char *c)
+#include <libftprintf.h>
+
+t_result	*fmt_c(t_fmtarg *arg, va_list varg)
 {
-	str[0] = c[0];
-	return (str);
+	(void)arg;
+	(void)varg;
+	return (0);
 }

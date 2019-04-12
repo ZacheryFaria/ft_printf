@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 13:42:50 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/11 11:42:45 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/11 17:06:15 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,47 +16,63 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void printarg(t_fmtarg arg)
+void printarg(t_fmtarg *arg)
 {
-	printf("allsign: %d\nleftalign: %d\nlongflag: %d\npadding: %d\nprecision: %d\nprecisionb: %d\nshortflag: %d\nzeroflag: %d\n", 
-		arg.allsign, arg.leftalign, arg.longflag, arg.padding,
-		arg.precision, arg.precisionb, arg.shortflag, arg.zeroflag);
+	printf("allsign: %d\nleftalign: %d\nlongflag: %d\npadding: %d\nprecision: %d\nprecisionb: %d\nshortflag: %d\nzeroflag: %d\naltflag: %d\nfuncc: %c\nspaceflag: %d\n\n", 
+		arg->allsign, arg->leftalign, arg->longflag, arg->padding,
+		arg->precision, arg->precisionb, arg->shortflag, arg->zeroflag,
+		arg->altfmt, arg->funcc, arg->spaceflag);
 }
 
-t_fmtarg	getarg(const char *fmt, int i)
+t_dispatch	g_dispatch[3] = {
+	{'s', fmt_s},
+	{'c', fmt_c},
+	{0, 0}
+};
+
+
+t_fmtarg	*getarg(const char *fmt, int i)
 {
-	t_fmtarg	arg;
+	t_fmtarg	*arg;
 	int			j;
 	char		temp[20];
 
 	j = 1;
+	arg = ft_memalloc(sizeof(t_fmtarg));
+	ft_bzero(temp, 20);
 	while (fmt[i + j])
 	{
 		if (fmt[i + j] == '-')
-			arg.leftalign = 1;
+			arg->leftalign = 1;
 		else if (fmt[i + j] == '0' && ft_strlen(temp) == 0)
-			arg.zeroflag = 1;
+			arg->zeroflag = 1;
 		else if (fmt[i + j] >= '0' && fmt[i + j] <= '9')
 			ft_strncat(temp, &fmt[i + j], 1);
 		else if (fmt[i + j] == '+')
-			arg.allsign = 1;
+			arg->allsign = 1;
 		else if (fmt[i + j] == 'l')
-			arg.longflag++;
+			arg->longflag++;
 		else if (fmt[i + j] == 'h')
-			arg.shortflag++;
+			arg->shortflag++;
 		else if (fmt[i + j] == ' ')
-			arg.spaceflag = 1;
+			arg->spaceflag = 1;
+		else if (fmt[i + j] == '#')
+			arg->altfmt = 1;
 		else if (fmt[i + j] == '.')
 		{
-			arg.precisionb = 1;
-			arg.padding = ft_atoi(temp);
+			arg->precisionb = 1;
+			arg->padding = ft_atoi(temp);
 			ft_strclr(temp);
 		}
 		else
 		{
-			arg.precision = ft_atoi(temp);
-			arg.fstr = ft_strnew(j + 1);
-			arg.fstr = ft_strncpy(arg.fstr, fmt + i, j + 1);
+			if (arg->precisionb)
+				arg->precision = ft_atoi(temp);
+			else
+				arg->padding = ft_atoi(temp);
+			arg->fstr = ft_strnew(j + 1);
+			arg->fstr = ft_strncpy(arg->fstr, fmt + i, j + 1);
+			arg->funcc = fmt[i + j];
 			return (arg);
 		}
 		j++;
@@ -64,31 +80,54 @@ t_fmtarg	getarg(const char *fmt, int i)
 	return (arg);	
 }
 
-int			read_fmt_str(const char *fmt, va_list args)
+t_result	*fire_dispatch(t_fmtarg *args, va_list varg)
+{
+	int i;
+	
+	i = 0;
+	while (g_dispatch[i].fmt_func)
+	{
+		if (args->funcc == g_dispatch[i].flag)
+		{
+			return(g_dispatch[i].fmt_func(args, varg));
+		}
+		i++;
+	}
+	return (0);
+}
+
+int			read_fmt_str(const char *fmt, va_list varg)
 {
 	int			i;
-	int			bwrite;
-	t_fmtarg	arg;
-	(void)args;
+	t_vector	*vector;
+	t_fmtarg	*arg;
+	t_result	*res;
 
 	i = 0;
-	bwrite = 0;
+	vector = make_vector();
 	while (fmt[i])
 	{
 		if (fmt[i] == '%')
 		{
 			arg = getarg(fmt, i);
-			printarg(arg);
-			i += ft_strlen(arg.fstr) - 1;
-			printf(":%s:", arg.fstr);
+			res = fire_dispatch(arg, varg);
+			if (res)
+			{
+				vectorcat(vector, res->str, res->bytes);
+				free(res->str);
+				free(res);
+			}
+			i += ft_strlen(arg->fstr) - 1;
+			free(arg);
+			arg = 0;
 		}
 		else
 		{
-			bwrite += write(1, &fmt[i], 1);
+			vectorcat(vector, fmt + i, 1);
 		}
 		i++;
 	}
-	return (bwrite);
+	return (write(1, vector->v, vector->size));
 }
 
 int			ft_printf(const char *fmt, ...)

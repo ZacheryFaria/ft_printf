@@ -3,6 +3,7 @@
 
 int main(void)
 {
-	int resf = ft_printf("adsf %10.5s\n", "Hello world");
-	printf("\n%10.5s\n", "Hello world");
+	int resf = ft_printf("Hello world! %-50s, %sz\n", "a", "Hello");
+	int resr = printf("Hello world! %-50s, %sz\n", "a", "Hello");
+	printf("fake %d\nreal %d\n", resf, resr);
 }

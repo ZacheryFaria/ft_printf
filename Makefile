@@ -1,7 +1,7 @@
 CC=gcc
-CFLAGS=-Werror -g -Wextra -Wall -std=c89 -I libft -I . -fsanitize=address
-LIBFLAGS=-g -L libft/ -lft -fsanitize=address
-TESTFLAGS=-g -I. test/test.c -o test/test -fsanitize=address
+CFLAGS=-Werror -g -Wextra -Wall -I libft -I include 
+LIBFLAGS=-g -L libft/ -lft 
+TESTFLAGS=-g -Iinclude test/test.c -o test/test 
 NAME=libftprintf.a
 SRC=$(wildcard src/*)
 OBJ=$(SRC:src/%.c=%.o)
@@ -10,9 +10,10 @@ OBJ=$(SRC:src/%.c=%.o)
 
 VPATH = src obj libft/includes include
 
-$(NAME): update $(OBJ)
+$(NAME): $(OBJ)
 	@make -C libft
-	@ar -r $(NAME) obj/*
+	@cp libft/libft.a ./$(NAME)
+	@ar -rc $(NAME) obj/*
 	@ranlib $(NAME)
 
 all: $(NAME)
@@ -34,10 +35,6 @@ re: fclean all
 test: $(NAME)
 	@$(CC) $(TESTFLAGS) -L . -lftprintf $(LIBFLAGS) 
 	@./test/test
-	@rm -f test/test
-
-update:
-	@./update.sh
 	
 norm:
 	norminette src/. include/.

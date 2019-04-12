@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 13:59:04 by z                 #+#    #+#             */
-/*   Updated: 2019/04/11 16:06:09 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/11 17:25:15 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ t_result	*fmt_s(t_fmtarg *arg, va_list varg)
 	t_result	*res;
 	char		*astr;
 
-	(void)arg;
 	res = malloc(sizeof(t_result));
 	astr = va_arg(varg, char *);
 	if (astr == 0)

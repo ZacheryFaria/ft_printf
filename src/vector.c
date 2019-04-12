@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 15:07:28 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/11 17:24:51 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/12 14:28:09 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_vector	*vectorcat(t_vector *vector, const char *str, size_t n)
 	if (vector->size + n >= vector->cap)
 	{
 		vector_expand(vector);
-		return(vectorcat(vector, str, n));
+		return (vectorcat(vector, str, n));
 	}
 	ft_memcpy(vector->v + vector->size, str, n);
 	vector->size += n;

@@ -1,7 +1,7 @@
 NAME=libft.a
 CC=gcc
 IDIR=include
-CFLAGS=-I. -Wall -Werror -Wextra
+CFLAGS=-I. -g -Wall -Werror -Wextra
 CFLAGS_SPEED=-finline-functions -Ofast
 DEPS=libft.h
 

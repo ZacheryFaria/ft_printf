@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 13:42:50 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/12 11:55:13 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/12 13:16:19 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ void printarg(t_fmtarg *arg)
 		arg->altfmt, arg->funcc, arg->spaceflag);
 }
 
-t_dispatch	g_dispatch[5] = {
+t_dispatch	g_dispatch[6] = {
 	{'s', fmt_s},
 	{'c', fmt_c},
 	{'d', fmt_d},
+	{'i', fmt_d},
 	{'u', fmt_d},
 	{0, 0}
 };
@@ -46,7 +47,7 @@ t_fmtarg	*getarg(const char *fmt, int i)
 	{
 		if (fmt[i + j] == '-')
 			arg->leftalign = 1;
-		else if (fmt[i + j] == '0' && ft_strlen(temp) == 0)
+		else if (fmt[i + j] == '0' && ft_strlen(temp) == 0 && !arg->precisionb)
 			arg->zeroflag = 1;
 		else if (fmt[i + j] >= '0' && fmt[i + j] <= '9')
 			ft_strncat(temp, &fmt[i + j], 1);

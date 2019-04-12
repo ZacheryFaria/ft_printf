@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/12 10:24:39 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/12 12:30:43 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/12 13:43:47 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,12 @@ static char	*handle_padding(t_fmtarg *arg, char *str)
 			ft_memset(news, '0', arg->padding);
 		else
 			ft_memset(news, ' ', arg->padding);
-		if ((str[0] == '-' || str[0] == '+') && arg->zeroflag && (o = 1))
+		if ((str[0] == '-' || str[0] == '+') && !arg->leftalign && arg->zeroflag && arg->precisionb
+			&& arg->precision - 1 >= 0 && (o = 1) )
+			news[arg->padding - len] = str[0];
+		else if ((str[0] == '-' || str[0] == '+') && arg->leftalign && (o = 1))
+			news[0] = str[0];
+		else if ((str[0] == '-' || str[0] == '+') && arg->zeroflag && (o = 1))
 			news[0] = str[0];
 		if (arg->leftalign)
 			ft_memcpy(news + o, str + o, len - o);

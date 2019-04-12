@@ -10,3 +10,4 @@ libftprintf.a
 test/test.dSYM
 test/want.dSYM
 test/test
+pft/

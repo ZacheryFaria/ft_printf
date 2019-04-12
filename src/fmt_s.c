@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 13:59:04 by z                 #+#    #+#             */
-/*   Updated: 2019/04/11 17:25:15 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/11 17:26:45 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <libft.h>
 
-char		*handle_padding(t_fmtarg *arg, char *str)
+static char	*handle_padding(t_fmtarg *arg, char *str)
 {
 	char	*news;
 	int		len;
@@ -37,7 +37,7 @@ char		*handle_padding(t_fmtarg *arg, char *str)
 	return (news);
 }
 
-char		*handle_precision(t_fmtarg *arg, char *str)
+static char	*handle_precision(t_fmtarg *arg, char *str)
 {
 	if (arg->precisionb)
 	{

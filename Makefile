@@ -1,7 +1,7 @@
 CC=gcc
-CFLAGS=-Werror -g -Wextra -Wall -I libft -I include 
-LIBFLAGS=-g -L libft/ -lft 
-TESTFLAGS=-g -Iinclude test/test.c -o test/test 
+CFLAGS=-Werror -g -Wextra -Wall -I libft -I include
+LIBFLAGS=-g -L libft/ -lft
+TESTFLAGS=-g -Iinclude test/test.c -o test/test
 NAME=libftprintf.a
 SRC=$(wildcard src/*)
 OBJ=$(SRC:src/%.c=%.o)

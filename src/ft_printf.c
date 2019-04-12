@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 13:42:50 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/12 11:34:27 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/12 11:55:13 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ void printarg(t_fmtarg *arg)
 		arg->altfmt, arg->funcc, arg->spaceflag);
 }
 
-t_dispatch	g_dispatch[4] = {
+t_dispatch	g_dispatch[5] = {
 	{'s', fmt_s},
 	{'c', fmt_c},
 	{'d', fmt_d},
+	{'u', fmt_d},
 	{0, 0}
 };
 
@@ -55,6 +56,13 @@ t_fmtarg	*getarg(const char *fmt, int i)
 			arg->longflag++;
 		else if (fmt[i + j] == 'h')
 			arg->shortflag++;
+		else if (fmt[i + j] == 'j')
+			arg->longflag = 2;
+		else if (fmt[i + j] == 'z')
+		{
+			arg->longflag = 2;
+			arg->u = 1;
+		}
 		else if (fmt[i + j] == ' ')
 			arg->spaceflag = 1;
 		else if (fmt[i + j] == '#')
@@ -74,6 +82,8 @@ t_fmtarg	*getarg(const char *fmt, int i)
 			arg->fstr = ft_strnew(j + 1);
 			arg->fstr = ft_strncpy(arg->fstr, fmt + i, j + 1);
 			arg->funcc = fmt[i + j];
+			if (arg->funcc == 'u')
+				arg->u = 1;
 			return (arg);
 		}
 		j++;

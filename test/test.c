@@ -4,10 +4,7 @@
 int main(void)
 {
 	char *test = "Hello world";
-	int resf = ft_printf("Hello world! %+05d, %6.4d\n", -100, -432);
-	int resr = printf("Hello world! %+05d, %6.4d\n", -100, -432);
-	ft_printf("Hello world! %5u, %-5u\n", 100, 5432);
-	printf("Hello world! %5u, %-5.5u\n", 100, 5432);
-	printf("fake %d\nreal %d\n", resf, resr);
+	ft_printf("@moulitest: %5.d %5.0d\n", 0, 0); 
+	printf("@moulitest: %5.d %5.0d\n", 0, 0); 
 	//while(1);
 }

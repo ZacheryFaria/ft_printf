@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 09:46:04 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/12 10:25:08 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/12 11:54:21 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct	s_fmtarg
 	int			zeroflag;
 	int			spaceflag;
 	int			altfmt;
+	int			u;
 }				t_fmtarg;
 
 typedef struct	s_vector

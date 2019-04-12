@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 13:42:50 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/12 13:16:19 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/12 14:28:36 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void printarg(t_fmtarg *arg)
-{
-	printf("allsign: %d\nleftalign: %d\nlongflag: %d\npadding: %d\nprecision: %d\nprecisionb: %d\nshortflag: %d\nzeroflag: %d\naltflag: %d\nfuncc: %c\nspaceflag: %d\n\n", 
-		arg->allsign, arg->leftalign, arg->longflag, arg->padding,
-		arg->precision, arg->precisionb, arg->shortflag, arg->zeroflag,
-		arg->altfmt, arg->funcc, arg->spaceflag);
-}
-
 t_dispatch	g_dispatch[6] = {
 	{'s', fmt_s},
 	{'c', fmt_c},
@@ -32,7 +24,6 @@ t_dispatch	g_dispatch[6] = {
 	{'u', fmt_d},
 	{0, 0}
 };
-
 
 t_fmtarg	*getarg(const char *fmt, int i)
 {

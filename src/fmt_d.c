@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/12 10:24:39 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/12 13:43:47 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/12 14:12:31 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,10 @@ static char	*handle_padding(t_fmtarg *arg, char *str)
 	char	*news;
 	int		len;
 	int		o;
+	int		sp;
 
 	o = 0;
+	sp = 0;
 	len = ft_strlen(str);
 	if (arg->padding > len)
 	{
@@ -86,10 +88,22 @@ static char	*handle_padding(t_fmtarg *arg, char *str)
 			news[0] = str[0];
 		else if ((str[0] == '-' || str[0] == '+') && arg->zeroflag && (o = 1))
 			news[0] = str[0];
+		else if (arg->spaceflag && !(str[0] == '-' || str[0] == '+'))
+		{
+			news[0] = ' ';
+			sp = 1;
+		}
 		if (arg->leftalign)
-			ft_memcpy(news + o, str + o, len - o);
-		else
-			ft_memcpy(news + (arg->padding - len) + o, str + o, len - o);
+			ft_memcpy(news + o + sp, str + o, len - o);
+		else if (arg->padding > 0)
+			ft_memcpy(news + sp + (arg->padding - len) + o, str + o, len - o - sp);
+		free(str);
+	}
+	else if (arg->spaceflag && !(str[0] == '-' || str[0] == '+'))
+	{
+		news = ft_memalloc(len + 2);
+		news[0] = ' ';
+		ft_strcat(news, str);
 		free(str);
 	}
 	else

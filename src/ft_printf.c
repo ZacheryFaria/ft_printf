@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 13:42:50 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/11 17:06:15 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/12 11:34:27 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ void printarg(t_fmtarg *arg)
 		arg->altfmt, arg->funcc, arg->spaceflag);
 }
 
-t_dispatch	g_dispatch[3] = {
+t_dispatch	g_dispatch[4] = {
 	{'s', fmt_s},
 	{'c', fmt_c},
+	{'d', fmt_d},
 	{0, 0}
 };
 
@@ -96,7 +97,7 @@ t_result	*fire_dispatch(t_fmtarg *args, va_list varg)
 	return (0);
 }
 
-int			read_fmt_str(const char *fmt, va_list varg)
+t_vector	*read_fmt_str(const char *fmt, va_list varg)
 {
 	int			i;
 	t_vector	*vector;
@@ -118,6 +119,7 @@ int			read_fmt_str(const char *fmt, va_list varg)
 				free(res);
 			}
 			i += ft_strlen(arg->fstr) - 1;
+			free(arg->fstr);
 			free(arg);
 			arg = 0;
 		}
@@ -127,16 +129,20 @@ int			read_fmt_str(const char *fmt, va_list varg)
 		}
 		i++;
 	}
-	return (write(1, vector->v, vector->size));
+	return (vector);
 }
 
 int			ft_printf(const char *fmt, ...)
 {
 	va_list		args;
 	int			res;
+	t_vector	*vec;
 
 	va_start(args, fmt);
-	res = read_fmt_str(fmt, args);
+	vec = read_fmt_str(fmt, args);
 	va_end(args);
+	write(1, vec->v, vec->size);
+	res = vec->size;
+	free(vec);
 	return (res);
 }

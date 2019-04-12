@@ -6,12 +6,11 @@ NAME=libftprintf.a
 SRC=$(wildcard src/*)
 OBJ=$(SRC:src/%.c=%.o)
 
-.PHONY: clean fclean all re norm norme debug test
+.PHONY: clean fclean all re norm norme debug test libft
 
 VPATH = src obj libft/includes include
 
-$(NAME): $(OBJ)
-	@make -C libft
+$(NAME): libft $(OBJ)
 	@cp libft/libft.a ./$(NAME)
 	@ar -rc $(NAME) obj/*
 	@ranlib $(NAME)
@@ -35,6 +34,9 @@ re: fclean all
 test: $(NAME)
 	@$(CC) $(TESTFLAGS) -L . -lftprintf $(LIBFLAGS) 
 	@./test/test
+
+libft:
+	make -C libft
 	
 norm:
 	norminette src/. include/.

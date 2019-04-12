@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 09:46:04 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/11 15:37:30 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/12 10:25:08 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,7 @@ int				ft_printf(const char *fmt, ...);
 
 t_result		*fmt_c(t_fmtarg *arg, va_list varg);
 t_result		*fmt_s(t_fmtarg *arg, va_list varg);
+t_result		*fmt_p(t_fmtarg *arg, va_list varg);
+t_result		*fmt_d(t_fmtarg *arg, va_list varg);
 
 #endif

@@ -4,9 +4,9 @@
 int main(void)
 {
 	char *test = "Hello world";
-	ft_printf("% -6i\n", 8473); 
-	printf("% -6i\n", 8473);
-	ft_printf("%0 -10.5i\n", -215); 
-	printf("%0 -10.5i\n", -215);
+	ft_printf("%+.0d\n", 0); 
+	printf("%+.0d\n", 0);
+	ft_printf("%+5.d\n", 0); 
+	printf("%+5.d\n", 0);
 	//while(1);
 }

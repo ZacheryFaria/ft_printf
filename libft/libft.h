@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 13:25:48 by awindham          #+#    #+#             */
-/*   Updated: 2019/04/12 10:30:31 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/13 13:31:47 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void		ft_printpad(int w, char *delim, int align, ...);
 */
 int			ft_atoi(const char *s);
 char		*ft_itoa(int64_t n);
+char		*ft_uitoa(uint64_t n);
 int			ft_strcmp(const char *s1, const char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 char		*ft_strnew(size_t size);

@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/12 10:24:39 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/12 14:27:46 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/13 11:37:33 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ static char	*handle_precision(t_fmtarg *arg, char *str)
 	}
 	else if (arg->precision == 0 && arg->precisionb && str[0] == '0')
 		return (ft_strdup(""));
+	else if (arg->precision == 0 && arg->precisionb && str[0] == '+')
+		return (ft_strdup("+"));
 	else
 		return (str);
 }
@@ -93,7 +95,7 @@ static char	*handle_padding(t_fmtarg *arg, char *str)
 		if (arg->leftalign)
 			ft_memcpy(news + o + sp, str + o, len - o);
 		else if (arg->padding > 0)
-			ft_memcpy(news + sp + (arg->padding - len) + o, str + o, len - o - sp);
+			ft_memcpy(news + (arg->padding - len) + o, str + o, len - o);
 		free(str);
 	}
 	else if (arg->spaceflag && !(str[0] == '-' || str[0] == '+'))

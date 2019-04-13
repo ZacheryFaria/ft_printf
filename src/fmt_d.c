@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/12 10:24:39 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/13 13:26:51 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/13 14:33:24 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,21 +119,36 @@ static char	*handle_padding(t_fmtarg *arg, char *str)
 	return (news);
 }
 
+enum		e_types {
+	H,
+	HH,
+	R,
+	L,
+	LL
+};
+
+t_dispatch	g_stypes[6] = {
+	{H, cast_h},
+	{HH, cast_hh},
+	{R, cast_reg},
+	{L, cast_l},
+	{LL, cast_ll},
+	{0, 0},
+};
+
 t_result	*fmt_d(t_fmtarg *arg, va_list varg)
 {
-	int64_t		val;
 	t_result	*res;
 
+	res = ft_memalloc(sizeof(t_result));
 	if (arg->longflag)
-		val = va_arg(varg, uint64_t);
+		res->str = g_stypes[LL].fmt_func(arg, varg);
 	else if (arg->shortflag == 1)
-		val = (int16_t)va_arg(varg, int32_t);
+		res->str = g_stypes[H].fmt_func(arg, varg);
 	else if (arg->shortflag == 2)
-		val = (int8_t)va_arg(varg, int32_t);
+		res->str = g_stypes[HH].fmt_func(arg, varg);
 	else
-		val = (int64_t)va_arg(varg, int32_t);
-	res = malloc(sizeof(t_result));
-	res->str = ft_itoa(val);
+		res->str = g_stypes[R].fmt_func(arg, varg);
 	res->str = handle_alt(arg, res->str);
 	res->str = handle_precision(arg, res->str, 0);
 	res->str = handle_padding(arg, res->str);

@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/12 10:24:39 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/13 11:37:33 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/13 13:26:51 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,13 @@ static char	*handle_alt(t_fmtarg *arg, char *str)
 	return (str);
 }
 
-static char	*handle_precision(t_fmtarg *arg, char *str)
+static char	*handle_precision(t_fmtarg *arg, char *str, int o)
 {
 	char	*news;
 	int		len;
 	int		digl;
-	int		o;
 
 	len = ft_strlen(str);
-	o = 0;
 	digl = len;
 	if ((str[0] == '-' || str[0] == '+') && (o = 1))
 		digl = len - 1;
@@ -65,6 +63,35 @@ static char	*handle_precision(t_fmtarg *arg, char *str)
 		return (str);
 }
 
+static void	handle_padding2(t_fmtarg *arg, char *str, char *news)
+{
+	int len;
+	int	sp;
+	int o;
+
+	len = ft_strlen(str);
+	sp = 0;
+	o = 0;
+	if (arg->zeroflag && !arg->leftalign && !(arg->precision -
+		arg->padding < 0 && arg->precisionb))
+		ft_memset(news, '0', arg->padding);
+	else
+		ft_memset(news, ' ', arg->padding);
+	if ((str[0] == '-' || str[0] == '+') && !arg->leftalign && arg->zeroflag
+		&& arg->precisionb && arg->precision - 1 >= 0 && (o = 1))
+		news[arg->padding - len] = str[0];
+	else if ((str[0] == '-' || str[0] == '+') && arg->leftalign && (o = 1))
+		news[0] = str[0];
+	else if ((str[0] == '-' || str[0] == '+') && arg->zeroflag && (o = 1))
+		news[0] = str[0];
+	else if (arg->spaceflag && !(str[0] == '-' || str[0] == '+') && (sp = 1))
+		news[0] = ' ';
+	if (arg->leftalign)
+		ft_memcpy(news + o + sp, str + o, len - o);
+	else if (arg->padding > 0)
+		ft_memcpy(news + (arg->padding - len) + o, str + o, len - o);
+}
+
 static char	*handle_padding(t_fmtarg *arg, char *str)
 {
 	char	*news;
@@ -78,35 +105,17 @@ static char	*handle_padding(t_fmtarg *arg, char *str)
 	if (arg->padding > len)
 	{
 		news = ft_memalloc(arg->padding + 1);
-		if (arg->zeroflag && !arg->leftalign && !(arg->precision -
-			arg->padding < 0 && arg->precisionb))
-			ft_memset(news, '0', arg->padding);
-		else
-			ft_memset(news, ' ', arg->padding);
-		if ((str[0] == '-' || str[0] == '+') && !arg->leftalign && arg->zeroflag
-			&& arg->precisionb && arg->precision - 1 >= 0 && (o = 1))
-			news[arg->padding - len] = str[0];
-		else if ((str[0] == '-' || str[0] == '+') && arg->leftalign && (o = 1))
-			news[0] = str[0];
-		else if ((str[0] == '-' || str[0] == '+') && arg->zeroflag && (o = 1))
-			news[0] = str[0];
-		else if (arg->spaceflag && !(str[0] == '-' || str[0] == '+') && (sp = 1))
-			news[0] = ' ';
-		if (arg->leftalign)
-			ft_memcpy(news + o + sp, str + o, len - o);
-		else if (arg->padding > 0)
-			ft_memcpy(news + (arg->padding - len) + o, str + o, len - o);
-		free(str);
+		handle_padding2(arg, str, news);
 	}
 	else if (arg->spaceflag && !(str[0] == '-' || str[0] == '+'))
 	{
 		news = ft_memalloc(len + 2);
 		news[0] = ' ';
 		ft_strcat(news, str);
-		free(str);
 	}
 	else
 		return (str);
+	free(str);
 	return (news);
 }
 
@@ -126,7 +135,7 @@ t_result	*fmt_d(t_fmtarg *arg, va_list varg)
 	res = malloc(sizeof(t_result));
 	res->str = ft_itoa(val);
 	res->str = handle_alt(arg, res->str);
-	res->str = handle_precision(arg, res->str);
+	res->str = handle_precision(arg, res->str, 0);
 	res->str = handle_padding(arg, res->str);
 	res->bytes = ft_strlen(res->str);
 	return (res);

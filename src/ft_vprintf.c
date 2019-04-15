@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 10:58:39 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/15 13:24:32 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/15 13:42:56 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,7 @@ t_vector	*read_fmt_str(const char *fmt, va_list varg)
 			arg = 0;
 		}
 		else
-		{
 			vectorcat(vector, fmt + i, 1);
-		}
 		i++;
 	}
 	return (vector);

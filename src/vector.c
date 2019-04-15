@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 15:07:28 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/12 14:28:09 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/15 13:34:43 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,14 @@ t_vector	*vectorcat(t_vector *vector, const char *str, size_t n)
 	ft_memcpy(vector->v + vector->size, str, n);
 	vector->size += n;
 	return (vector);
+}
+
+void		vectordel(t_vector **vector)
+{
+	if (vector)
+	{
+		free((*vector)->v);
+		free(*vector);
+		*vector = 0;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 09:46:04 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/15 13:24:37 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/15 13:42:36 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ typedef struct	s_result
 typedef struct	s_fmtarg
 {
 	char		*fstr;
-	char		*vstr;
 	char		funcc;
 	int			leftalign;
 	int			padding;
@@ -64,6 +63,7 @@ enum			e_types {
 
 t_vector		*make_vector(void);
 t_vector		*vectorcat(t_vector *v, const char *str, size_t n);
+void			vectordel(t_vector **vector);
 
 int				ft_printf(const char *fmt, ...);
 int				ft_fprintf(int fd, const char *fmt, ...);

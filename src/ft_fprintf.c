@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 10:57:52 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/15 11:01:52 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/15 13:35:25 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int			ft_fprintf(int fd, const char *fmt, ...)
 	if (res < 0)
 		return (-1);
 	res = vec->size;
-	free(vec->v);
-	free(vec);
+	vectordel(&vec);
 	return (res);
 }

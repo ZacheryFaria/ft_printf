@@ -32,7 +32,7 @@ fclean: clean
 re: fclean all
 
 test: $(NAME)
-	@$(CC) $(TESTFLAGS) -L . -lftprintf $(LIBFLAGS) 
+	@$(CC) $(TESTFLAGS) -L . -lftprintf $(LIBFLAGS) -I libft
 	@./test/test
 
 libft:

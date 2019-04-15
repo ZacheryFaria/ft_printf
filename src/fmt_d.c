@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/12 10:24:39 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/13 14:33:24 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/15 10:55:28 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,15 @@ static char	*handle_precision(t_fmtarg *arg, char *str, int o)
 		if (o)
 			news[0] = str[0];
 		ft_memcpy(news + o + (arg->precision - digl), str + o, len - o);
-		free(str);
-		return (news);
 	}
 	else if (arg->precision == 0 && arg->precisionb && str[0] == '0')
-		return (ft_strdup(""));
+		news = ft_strdup("");
 	else if (arg->precision == 0 && arg->precisionb && str[0] == '+')
-		return (ft_strdup("+"));
+		news = ft_strdup("+");
 	else
 		return (str);
+	free(str);
+	return (news);
 }
 
 static void	handle_padding2(t_fmtarg *arg, char *str, char *news)
@@ -119,36 +119,28 @@ static char	*handle_padding(t_fmtarg *arg, char *str)
 	return (news);
 }
 
-enum		e_types {
-	H,
-	HH,
-	R,
-	L,
-	LL
+static void	*(*g_stypes[6])() = {
+	cast_h,
+	cast_hh,
+	cast_reg,
+	cast_l,
+	cast_ll,
+	0
 };
 
-t_dispatch	g_stypes[6] = {
-	{H, cast_h},
-	{HH, cast_hh},
-	{R, cast_reg},
-	{L, cast_l},
-	{LL, cast_ll},
-	{0, 0},
-};
-
-t_result	*fmt_d(t_fmtarg *arg, va_list varg)
+void		*fmt_d(t_fmtarg *arg, va_list varg)
 {
 	t_result	*res;
 
 	res = ft_memalloc(sizeof(t_result));
 	if (arg->longflag)
-		res->str = g_stypes[LL].fmt_func(arg, varg);
+		res->str = g_stypes[LL](arg, varg);
 	else if (arg->shortflag == 1)
-		res->str = g_stypes[H].fmt_func(arg, varg);
+		res->str = g_stypes[H](arg, varg);
 	else if (arg->shortflag == 2)
-		res->str = g_stypes[HH].fmt_func(arg, varg);
+		res->str = g_stypes[HH](arg, varg);
 	else
-		res->str = g_stypes[R].fmt_func(arg, varg);
+		res->str = g_stypes[R](arg, varg);
 	res->str = handle_alt(arg, res->str);
 	res->str = handle_precision(arg, res->str, 0);
 	res->str = handle_padding(arg, res->str);

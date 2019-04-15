@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 13:59:04 by z                 #+#    #+#             */
-/*   Updated: 2019/04/12 12:08:29 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/15 13:28:49 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ static char	*handle_padding(t_fmtarg *arg, t_result *res, char c)
 	{
 		res->bytes = arg->padding;
 		news = ft_memalloc(arg->padding + 1);
-		news = ft_memset(news, ' ', arg->padding);
+		if (arg->zeroflag && !arg->leftalign)
+			news = ft_memset(news, '0', arg->padding);
+		else
+			news = ft_memset(news, ' ', arg->padding);
 		if (arg->leftalign)
 			news[0] = c;
 		else
@@ -38,13 +41,16 @@ static char	*handle_padding(t_fmtarg *arg, t_result *res, char c)
 	return (news);
 }
 
-t_result	*fmt_c(t_fmtarg *arg, va_list varg)
+void		*fmt_c(t_fmtarg *arg, va_list varg)
 {
 	t_result	*res;
 	char		astr;
 
 	res = malloc(sizeof(t_result));
-	astr = va_arg(varg, int);
+	if (arg->perc)
+		astr = '%';
+	else
+		astr = va_arg(varg, int);
 	res->str = handle_padding(arg, res, astr);
 	return (res);
 }

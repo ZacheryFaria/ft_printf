@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_fprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/16 13:42:50 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/15 11:02:29 by zfaria           ###   ########.fr       */
+/*   Created: 2019/04/15 10:57:52 by zfaria            #+#    #+#             */
+/*   Updated: 2019/04/15 11:01:52 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdarg.h>
 #include <unistd.h>
 
-int			ft_printf(const char *fmt, ...)
+int			ft_fprintf(int fd, const char *fmt, ...)
 {
 	va_list		args;
 	int			res;
@@ -23,7 +23,9 @@ int			ft_printf(const char *fmt, ...)
 	va_start(args, fmt);
 	vec = read_fmt_str(fmt, args);
 	va_end(args);
-	write(1, vec->v, vec->size);
+	res = write(fd, vec->v, vec->size);
+	if (res < 0)
+		return (-1);
 	res = vec->size;
 	free(vec->v);
 	free(vec);

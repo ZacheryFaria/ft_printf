@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 13:59:04 by z                 #+#    #+#             */
-/*   Updated: 2019/04/11 17:26:45 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/15 13:30:03 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	*handle_precision(t_fmtarg *arg, char *str)
 	return (str);
 }
 
-t_result	*fmt_s(t_fmtarg *arg, va_list varg)
+void		*fmt_s(t_fmtarg *arg, va_list varg)
 {
 	t_result	*res;
 	char		*astr;

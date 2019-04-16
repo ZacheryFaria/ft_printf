@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 09:46:04 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/15 16:16:35 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/16 10:19:20 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void			*fmt_s(t_fmtarg *arg, va_list varg);
 void			*fmt_p(t_fmtarg *arg, va_list varg);
 void			*fmt_d(t_fmtarg *arg, va_list varg);
 void			*fmt_x(t_fmtarg *arg, va_list varg);
+void			*fmt_o(t_fmtarg *arg, va_list varg);
 
 void			*cast_h(t_fmtarg *arg, va_list varg, int base);
 void			*cast_hh(t_fmtarg *arg, va_list varg, int base);

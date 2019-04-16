@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 09:46:04 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/16 11:18:14 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/16 12:35:20 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void			vectordel(t_vector **vector);
 
 int				ft_printf(const char *fmt, ...);
 int				ft_fprintf(int fd, const char *fmt, ...);
-int				ft_sprintf(char *str, const char *fmt, ...);
+int				ft_sprintf(char **str, const char *fmt, ...);
 
 t_vector		*read_fmt_str(const char *fmt, va_list varg);
 

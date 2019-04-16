@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:12:09 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/16 11:23:32 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/16 12:29:27 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_vector	*read_file(int fd, int bufsize)
 	while (get_next_line(fd, &tmp, bufsize) > 0)
 	{
 		vectorcat(vec, tmp, ft_strlen(tmp));
+		vectorcat(vec, "\n", 1);
 		free(tmp);
 	}
 	return (vec);

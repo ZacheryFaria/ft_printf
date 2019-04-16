@@ -6,14 +6,15 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 10:59:30 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/15 13:35:32 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/16 12:35:22 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libftprintf.h>
 #include <stdarg.h>
+#include <libft.h>
 
-int			ft_sprintf(char *str, const char *fmt, ...)
+int			ft_sprintf(char **str, const char *fmt, ...)
 {
 	va_list		args;
 	int			res;
@@ -22,7 +23,7 @@ int			ft_sprintf(char *str, const char *fmt, ...)
 	va_start(args, fmt);
 	vec = read_fmt_str(fmt, args);
 	va_end(args);
-	str = vec->v;
+	*str = vec->v;
 	res = vec->size;
 	vectordel(&vec);
 	return (res);

@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 10:58:39 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/16 10:54:02 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/16 11:18:24 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-t_dispatch	g_dispatch[13] = {
+t_dispatch	g_dispatch[14] = {
 	{'s', fmt_s},
 	{'c', fmt_c},
 	{'d', fmt_d},
@@ -28,6 +28,7 @@ t_dispatch	g_dispatch[13] = {
 	{'O', fmt_o},
 	{'p', fmt_p},
 	{'b', fmt_b},
+	{'v', fmt_v},
 	{0, 0}
 };
 

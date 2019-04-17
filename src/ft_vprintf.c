@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 10:58:39 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/17 12:15:12 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/17 16:20:04 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,42 +16,41 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-t_dispatch	g_dispatch[16] = {
-	{'s', fmt_s},
-	{'c', fmt_c},
-	{'d', fmt_d},
-	{'i', fmt_d},
-	{'u', fmt_d},
-	{'x', fmt_x},
-	{'X', fmt_x},
-	{'o', fmt_o},
-	{'O', fmt_o},
-	{'p', fmt_p},
-	{'b', fmt_b},
-	{'v', fmt_v},
-	{'f', fmt_f},
-	{'F', fmt_f},
-	{0, 0}
+void	*(*g_dispatch[])() = {
+	['s'] = fmt_s,
+	['c'] = fmt_c,
+	['d'] = fmt_d,
+	['i'] = fmt_d,
+	['u'] = fmt_d,
+	['x'] = fmt_x,
+	['X'] = fmt_x,
+	['o'] = fmt_o,
+	['O'] = fmt_o,
+	['p'] = fmt_p,
+	['b'] = fmt_b,
+	['v'] = fmt_v,
+	['f'] = fmt_f,
+	['F'] = fmt_f
 };
 
-t_dispatch	g_argdispatch[10] = {
-	{'-', arg_leftalign},
-	{'l', arg_long_inc},
-	{'L', arg_long_inc},
-	{'z', arg_long_max},
-	{'j', arg_long_max},
-	{'h', arg_short_inc},
-	{'#', arg_altfmt},
-	{' ', arg_spac},
-	{'+', arg_all},
-	{0, 0}
+void	*(*g_argdispatch[])() = {
+	['-'] = arg_leftalign,
+	['l'] = arg_long_inc,
+	['L'] = arg_long_inc,
+	['z'] = arg_long_max,
+	['j'] = arg_long_max,
+	['h'] = arg_short_inc,
+	['#'] = arg_altfmt,
+	[' '] = arg_spac,
+	['+'] = arg_all,
+	['*'] = arg_vfield
 };
 
 t_fmtarg	*getarg2(t_fmtarg *arg, char *temp, int i, int j)
 {
 	if (arg->precisionb)
 		arg->precision = ft_atoi(temp);
-	else
+	else if (arg->padding == 0)
 		arg->padding = ft_atoi(temp);
 	arg->fstr = ft_strnew(j + 1);
 	arg->fstr = ft_strncpy(arg->fstr, arg->fmt + i, j + 1);
@@ -66,25 +65,17 @@ t_fmtarg	*getarg2(t_fmtarg *arg, char *temp, int i, int j)
 	return (arg);
 }
 
-int			getarg1(t_fmtarg *arg, char *temp, int i, int j)
+int			getarg1(t_fmtarg *arg, va_list varg, int i, int j)
 {
-	int k;
-
-	(void)temp;
-	k = 0;
-	while (g_argdispatch[k].fmt_func)
+	if (g_argdispatch[(int)arg->fmt[i + j]])
 	{
-		if (g_argdispatch[k].flag == arg->fmt[i + j])
-		{
-			g_argdispatch[k].fmt_func(arg, 0);
-			return (1);
-		}
-		k++;
+		g_argdispatch[(int)arg->fmt[i + j]](arg, varg);
+		return (1);
 	}
 	return (0);
 }
 
-t_fmtarg	*getarg(const char *fmt, int i)
+t_fmtarg	*getarg(const char *fmt, int i, va_list varg)
 {
 	t_fmtarg	*arg;
 	int			j;
@@ -96,7 +87,7 @@ t_fmtarg	*getarg(const char *fmt, int i)
 	arg->fmt = ft_strdup(fmt);
 	while (fmt[i + j])
 	{
-		if (getarg1(arg, temp, i, j))
+		if (getarg1(arg, varg, i, j))
 			;
 		else if (fmt[i + j] == '0' && ft_strlen(temp) == 0 && !arg->precisionb)
 			arg->zeroflag = 1;
@@ -113,15 +104,8 @@ t_fmtarg	*getarg(const char *fmt, int i)
 
 t_result	*fire_dispatch(t_fmtarg *args, va_list varg)
 {
-	int i;
-
-	i = 0;
-	while (g_dispatch[i].fmt_func)
-	{
-		if (args->funcc == g_dispatch[i].flag)
-			return (g_dispatch[i].fmt_func(args, varg));
-		i++;
-	}
+	if (g_dispatch[(int)args->funcc])
+		return (g_dispatch[(int)args->funcc](args, varg));
 	return (0);
 }
 
@@ -138,7 +122,7 @@ t_vector	*read_fmt_str(const char *fmt, va_list varg)
 	{
 		if (fmt[i] == '%')
 		{
-			arg = getarg(fmt, i);
+			arg = getarg(fmt, i, varg);
 			if ((res = fire_dispatch(arg, varg)))
 			{
 				vectorcat(vector, res->str, res->bytes);

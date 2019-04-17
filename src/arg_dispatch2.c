@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 12:12:18 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/17 12:17:44 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/17 16:10:22 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@ void	*arg_all(t_fmtarg *arg, va_list varg)
 {
 	(void)varg;
 	arg->allsign = 1;
+	return (0);
+}
+
+void	*arg_vfield(t_fmtarg *arg, va_list varg)
+{
+	int	val;
+
+	val = va_arg(varg, int);
+	arg->padding = val;
 	return (0);
 }
 

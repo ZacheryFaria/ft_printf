@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 09:46:04 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/17 12:15:04 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/17 16:06:44 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void			*arg_altfmt(t_fmtarg *arg, va_list varg);
 void			*arg_leftalign(t_fmtarg *arg, va_list varg);
 void			*arg_spac(t_fmtarg *arg, va_list varg);
 void			*arg_all(t_fmtarg *arg, va_list varg);
+void			*arg_vfield(t_fmtarg *arg, va_list varg);
 void			arg_prec(t_fmtarg *arg, char *temp);
 
 #endif

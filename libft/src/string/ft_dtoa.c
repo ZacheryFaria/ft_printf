@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 13:39:55 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/16 20:09:22 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/17 14:32:12 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,73 +28,86 @@ int		count_digits(int64_t n)
 	return (d);
 }
 
-char	*ft_dtoa(long double d, int prec)
+int		get_supsub(uint64_t *sub, uint64_t *sup, long double d, int prec)
 {
-	char	*res;
-	char	*temp;
-	int		neg;
-	uint64_t	sup;
-	uint64_t	sub;
-	int		point;
-	int		zeroprec;
-	int		i;
-	int64_t	old;
+	int zeroprec;
+	int	i;
+	int	point;
 
-	neg = 0;
 	if (d < 0.0)
-	{
-		neg = 1;
 		d = -d;
-	}
-	sup = (unsigned int)d;
-	d -= sup;
+	*sup = (uint64_t)d;
+	d -= *sup;
 	zeroprec = 0;
 	i = 0;
-	sub = 0;
-	old = 0;
 	while (d != 0 && i <= prec)
 	{
 		d *= 10;
 		point = (int)d;
-		if (!point && sub == 0)
+		if (!point && *sub == 0)
 			zeroprec++;
-		sub *= 10;
-		sub += point;
+		*sub *= 10;
+		*sub += point;
 		d -= point;
 		i++;
 	}
-	res = ft_strnew(33);
-	temp = ft_strnew(20);
-	old = sub;
-	if (prec - zeroprec < count_digits(sub))
-	{
-		sub += 5;
-		if (count_digits(old) < count_digits(sub) && zeroprec > 0)
-			zeroprec--;
-	}
+	return (zeroprec);
+}
+
+int		ft_dtoa2(char *temp, uint64_t sub, int prec, int zeroprec)
+{
+	char	*temp2;
+
+	temp2 = ft_uitoa(sub);
 	if (prec - zeroprec >= 0)
 		ft_memset(temp, '0', zeroprec);
 	if (prec - zeroprec > 0)
-		ft_strncat(temp, ft_itoa(sub), prec - zeroprec);
+		ft_strncat(temp, temp2, prec - zeroprec);
+	free(temp2);
 	if (prec - zeroprec - count_digits(sub) > 0)
-		ft_memset(temp + ft_strlen(temp), '0', prec - zeroprec - count_digits(sub));
-	if (count_digits(old) != count_digits(sub) && !zeroprec && (temp[0] == '1' || temp[0] == 0))
-	{
-		sup++;
-		ft_memmove(temp, temp + 1, ft_strlen(temp + 1));
-	}
-	ft_strcat(res, ft_itoa(sup));
+		ft_memset(temp + ft_strlen(temp), '0',
+		prec - zeroprec - count_digits(sub));
+	if ((count_digits(sub - 5) != count_digits(sub) &&
+		!zeroprec && (temp[0] == '1' || temp[0] == 0))
+		&& ft_memmove(temp, temp + 1, ft_strlen(temp + 1)))
+		return (1);
+	return (0);
+}
+
+void	appendstr(char *str, char *s2, char *temp, int prec)
+{
+	ft_strcat(str, s2);
+	free(s2);
 	if (prec > 0)
 	{
-		ft_strcat(res, ".");
+		ft_strcat(str, ".");
 		if (ft_strlen(temp) == 0)
 			ft_memset(temp, '0', prec);
-		ft_strcat(res, temp);
+		ft_strcat(str, temp);
 	}
-	if (neg)
+	free(temp);
+}
+
+char	*ft_dtoa(long double d, int prec)
+{
+	char		*res;
+	char		*temp;
+	uint64_t	sup;
+	uint64_t	sub;
+	int			zeroprec;
+
+	zeroprec = get_supsub(&sub, &sup, d, prec);
+	res = ft_strnew(99);
+	temp = ft_strnew(25);
+	if (prec - zeroprec < count_digits(sub))
 	{
-		ft_memmove(res + 1, res, ft_strlen(res));
-		res[0] = '-';
+		if (count_digits(sub) < count_digits(sub + 5) && zeroprec > 0)
+			zeroprec--;
+		sub += 5;
 	}
+	sup += ft_dtoa2(temp, sub, prec, zeroprec);
+	appendstr(res, ft_itoa(sup), temp, prec);
+	if (d < 0.0 && ft_memmove(res + 1, res, ft_strlen(res)))
+		res[0] = '-';
 	return (res);
 }

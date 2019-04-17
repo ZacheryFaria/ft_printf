@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 13:25:48 by awindham          #+#    #+#             */
-/*   Updated: 2019/04/16 19:09:30 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/17 15:47:21 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void		ft_printpad(int w, char *delim, int align, ...);
 int			ft_atoi(const char *s);
 char		*ft_itoa(int64_t n);
 char		*ft_uitoa(uint64_t n);
-char		*ft_itoa_base(uint64_t, int base, int cas);
+char		*ft_itoa_base(uint64_t n, int base, int cas);
 char		*ft_dtoa(long double d, int prec);
 int			ft_strcmp(const char *s1, const char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -80,6 +80,7 @@ char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strchr(char const *s, int c);
 char		*ft_strrchr(char const *s, int c);
 char		*ft_strnstr(char const *h, char const *n, size_t len);
+char		*ft_strstr(char const *h, char const *n);
 int			ft_strequ(char const *s1, char const *s2);
 int			ft_strnequ(char const *s1, char const *s2, size_t n);
 char		*ft_strmap(char const *s, char (*f)(char));

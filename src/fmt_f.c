@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 13:23:08 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/16 20:18:02 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/17 15:45:40 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,25 @@ static char	*handle_alt(t_fmtarg *arg, char *str)
 
 static char	*handle_precision(t_fmtarg *arg, long double d)
 {
-	if (arg->precisionb)
+	if (arg->longflag)
 	{
-		if (arg->longflag)
+		if (d == HUGE_VALL)
+			return (ft_strdup("inf"));
+		if (d == -HUGE_VALL)
+			return (ft_strdup("-inf"));
+		if (arg->precisionb)
 			return (ft_dtoa(d, arg->precision));
 		else
-			return (ft_dtoa((double)d, arg->precision));
+			return (ft_dtoa(d, 6));
 	}
 	else
 	{
-		if (arg->longflag)
-			return (ft_dtoa(d, 6));
+		if (d == HUGE_VAL)
+			return (ft_strdup("inf"));
+		if (d == -HUGE_VAL)
+			return (ft_strdup("-inf"));
+		if (arg->precisionb)
+			return (ft_dtoa((double)d, arg->precision));
 		else
 			return (ft_dtoa((double)d, 6));
 	}
@@ -59,7 +67,8 @@ static void	handle_padding2(t_fmtarg *arg, char *str, char *news)
 	len = ft_strlen(str);
 	sp = 0;
 	o = 0;
-	if (arg->zeroflag && !arg->leftalign && arg->padding > 0)
+	if (arg->zeroflag && !arg->leftalign && arg->padding > 0 &&
+		!ft_strstr(str, "inf"))
 		ft_memset(news, '0', arg->padding);
 	else
 		ft_memset(news, ' ', arg->padding);

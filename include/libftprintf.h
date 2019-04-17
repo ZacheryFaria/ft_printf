@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 09:46:04 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/16 13:35:12 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/17 12:15:04 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct	s_result
 
 typedef struct	s_fmtarg
 {
+	char		*fmt;
 	char		*fstr;
 	char		funcc;
 	int			leftalign;
@@ -88,5 +89,14 @@ void			*cast_hh(t_fmtarg *arg, va_list varg, int base);
 void			*cast_reg(t_fmtarg *arg, va_list varg, int base);
 void			*cast_l(t_fmtarg *arg, va_list varg, int base);
 void			*cast_ll(t_fmtarg *arg, va_list varg, int base);
+
+void			*arg_long_inc(t_fmtarg *arg, va_list varg);
+void			*arg_long_max(t_fmtarg *arg, va_list varg);
+void			*arg_short_inc(t_fmtarg *arg, va_list varg);
+void			*arg_altfmt(t_fmtarg *arg, va_list varg);
+void			*arg_leftalign(t_fmtarg *arg, va_list varg);
+void			*arg_spac(t_fmtarg *arg, va_list varg);
+void			*arg_all(t_fmtarg *arg, va_list varg);
+void			arg_prec(t_fmtarg *arg, char *temp);
 
 #endif

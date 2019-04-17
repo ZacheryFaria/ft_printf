@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 10:58:39 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/16 20:14:03 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/16 20:42:35 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ t_fmtarg	*getarg(const char *fmt, int i)
 		else if (fmt[i + j] == 'j')
 			arg->longflag = 2;
 		else if (fmt[i + j] == 'z')
-		{
 			arg->longflag = 2;
-			arg->u = 1;
-		}
 		else if (fmt[i + j] == ' ')
 			arg->spaceflag = 1;
 		else if (fmt[i + j] == '#')

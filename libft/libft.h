@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 13:25:48 by awindham          #+#    #+#             */
-/*   Updated: 2019/04/15 16:03:03 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/16 19:09:30 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int			ft_atoi(const char *s);
 char		*ft_itoa(int64_t n);
 char		*ft_uitoa(uint64_t n);
 char		*ft_itoa_base(uint64_t, int base, int cas);
+char		*ft_dtoa(long double d, int prec);
 int			ft_strcmp(const char *s1, const char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 char		*ft_strnew(size_t size);

@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 10:58:39 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/16 11:18:24 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/16 20:14:03 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-t_dispatch	g_dispatch[14] = {
+t_dispatch	g_dispatch[16] = {
 	{'s', fmt_s},
 	{'c', fmt_c},
 	{'d', fmt_d},
@@ -29,6 +29,8 @@ t_dispatch	g_dispatch[14] = {
 	{'p', fmt_p},
 	{'b', fmt_b},
 	{'v', fmt_v},
+	{'f', fmt_f},
+	{'F', fmt_f},
 	{0, 0}
 };
 
@@ -51,7 +53,7 @@ t_fmtarg	*getarg(const char *fmt, int i)
 			ft_strncat(temp, &fmt[i + j], 1);
 		else if (fmt[i + j] == '+')
 			arg->allsign = 1;
-		else if (fmt[i + j] == 'l')
+		else if (fmt[i + j] == 'l' || fmt[i + j] == 'L')
 			arg->longflag++;
 		else if (fmt[i + j] == 'h')
 			arg->shortflag++;

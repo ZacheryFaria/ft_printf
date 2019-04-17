@@ -1,66 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fmt_p.c                                            :+:      :+:    :+:   */
+/*   fmt_f.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/15 15:57:33 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/16 19:32:58 by zfaria           ###   ########.fr       */
+/*   Created: 2019/04/16 13:23:08 by zfaria            #+#    #+#             */
+/*   Updated: 2019/04/16 20:18:02 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
 #include <libftprintf.h>
+#include <libft.h>
+#include <math.h>
 
-static char	*handle_alt(char *str, int orig)
+static char	*handle_alt(t_fmtarg *arg, char *str)
 {
-	char	*news;
-	int		len;
-
-	len = ft_strlen(str);
-	if (!orig)
+	if (arg->allsign)
 	{
-		news = ft_memalloc(len + 5);
-		ft_strcpy(news, "0x");
-		ft_strcat(news, str);
-		free(str);
-		return (news);
+		if (str[0] != '-')
+		{
+			ft_memmove(str + 1, str, ft_strlen(str));
+			str[0] = '+';
+		}
 	}
-	else if (orig)
+	if (arg->altfmt)
 	{
-		free(str);
-		return (ft_strdup("0x0"));
+		if (!ft_strchr(str, '.'))
+			ft_strcat(str, ".");
 	}
 	return (str);
 }
 
-static char	*handle_precision(t_fmtarg *arg, char *str, int o)
+static char	*handle_precision(t_fmtarg *arg, long double d)
 {
-	char	*news;
-	int		len;
-	int		digl;
-
-	len = ft_strlen(str);
-	digl = len;
-	if ((str[0] == '-' || str[0] == '+') && (o = 1))
-		digl = len - 1;
-	if (digl < arg->precision)
+	if (arg->precisionb)
 	{
-		news = ft_memalloc(arg->precision + o + 1);
-		ft_memset(news, '0', arg->precision + o);
-		if (o)
-			news[0] = str[0];
-		ft_memcpy(news + o + (arg->precision - digl), str + o, len - o);
+		if (arg->longflag)
+			return (ft_dtoa(d, arg->precision));
+		else
+			return (ft_dtoa((double)d, arg->precision));
 	}
-	else if (arg->precision == 0 && arg->precisionb && str[0] == '0')
-		news = ft_strdup("");
-	else if (arg->precision == 0 && arg->precisionb && str[0] == '+')
-		news = ft_strdup("+");
 	else
-		return (str);
-	free(str);
-	return (news);
+	{
+		if (arg->longflag)
+			return (ft_dtoa(d, 6));
+		else
+			return (ft_dtoa((double)d, 6));
+	}
 }
 
 static void	handle_padding2(t_fmtarg *arg, char *str, char *news)
@@ -72,14 +59,17 @@ static void	handle_padding2(t_fmtarg *arg, char *str, char *news)
 	len = ft_strlen(str);
 	sp = 0;
 	o = 0;
-	if (arg->zeroflag && !arg->leftalign && !(arg->precision -
-		arg->padding < 0 && arg->precisionb))
+	if (arg->zeroflag && !arg->leftalign && arg->padding > 0)
 		ft_memset(news, '0', arg->padding);
 	else
 		ft_memset(news, ' ', arg->padding);
 	if ((str[0] == '-' || str[0] == '+') && !arg->leftalign && arg->zeroflag
-		&& arg->precisionb && arg->precision - 1 >= 0 && (o = 1))
-		news[arg->padding - len] = str[0];
+		&& (o = 1))
+		news[0] = str[0];
+	else if ((str[0] == '-' || str[0] == '+') && arg->leftalign && (o = 1))
+		news[0] = str[0];
+	else if ((str[0] == '-' || str[0] == '+') && arg->zeroflag && (o = 1))
+		news[0] = str[0];
 	else if (arg->spaceflag && !(str[0] == '-' || str[0] == '+') && (sp = 1))
 		news[0] = ' ';
 	if (arg->leftalign)
@@ -115,22 +105,25 @@ static char	*handle_padding(t_fmtarg *arg, char *str)
 	return (news);
 }
 
-void		*fmt_p(t_fmtarg *arg, va_list varg)
+void		*fmt_f(t_fmtarg *arg, va_list varg)
 {
 	t_result	*res;
-	int			origzero;
-	uint64_t	ptrval;
-	void		*ptr;
+	double		val;
+	long double	val2;
 
+	(void)arg;
 	res = ft_memalloc(sizeof(t_result));
-	ptr = va_arg(varg, void *);
-	ptrval = (uint64_t)ptr;
-	origzero = 0;
-	if (!ptr)
-		origzero = 1;
-	res->str = ft_itoa_base(ptrval, 16, 0);
-	res->str = handle_precision(arg, res->str, 0);
-	res->str = handle_alt(res->str, origzero);
+	if (arg->longflag)
+	{
+		val2 = va_arg(varg, long double);
+		res->str = handle_precision(arg, val2);
+	}
+	else
+	{
+		val = va_arg(varg, double);
+		res->str = handle_precision(arg, val);
+	}
+	res->str = handle_alt(arg, res->str);
 	res->str = handle_padding(arg, res->str);
 	res->bytes = ft_strlen(res->str);
 	return (res);

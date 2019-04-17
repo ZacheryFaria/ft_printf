@@ -22,10 +22,10 @@ $(NAME): $(OBJ)
 all: $(NAME)
 
 clean:
-	rm -rf $(OBJ)
+	@rm -rf $(OBJ)
 
 fclean: clean
-	rm -rf $(NAME) obj/
+	@rm -rf $(NAME) obj/
 
 re : fclean $(NAME)
 

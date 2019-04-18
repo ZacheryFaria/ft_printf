@@ -6,7 +6,7 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 13:39:55 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/17 15:33:59 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/18 11:08:43 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,9 @@ char	*ft_dtoa(long double d, int prec)
 	}
 	sup += ft_dtoa2(temp, sub, prec, zeroprec);
 	appendstr(res, ft_itoa(sup), temp, prec);
-	if (d < 0.0 && ft_memmove(res + 1, res, ft_strlen(res)))
+	if ((d < 0.0 || (d == -0.0 && (d / -0.0 > 0 ||
+		d / -0.0 > 0)))
+		&& ft_memmove(res + 1, res, ft_strlen(res)))
 		res[0] = '-';
 	return (res);
 }

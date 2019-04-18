@@ -6,13 +6,16 @@
 /*   By: zfaria <zfaria@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 13:23:08 by zfaria            #+#    #+#             */
-/*   Updated: 2019/04/17 15:45:40 by zfaria           ###   ########.fr       */
+/*   Updated: 2019/04/18 11:09:23 by zfaria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libftprintf.h>
 #include <libft.h>
 #include <math.h>
+
+#define ISINF(x) (ft_strstr(x, "inf") || ft_strstr(x, "INF"))
+#define HASSIGN(x) (x[0] == '+' || x[0] == '-')
 
 static char	*handle_alt(t_fmtarg *arg, char *str)
 {
@@ -68,16 +71,16 @@ static void	handle_padding2(t_fmtarg *arg, char *str, char *news)
 	sp = 0;
 	o = 0;
 	if (arg->zeroflag && !arg->leftalign && arg->padding > 0 &&
-		!ft_strstr(str, "inf"))
+		!ISINF(str))
 		ft_memset(news, '0', arg->padding);
 	else
 		ft_memset(news, ' ', arg->padding);
 	if ((str[0] == '-' || str[0] == '+') && !arg->leftalign && arg->zeroflag
-		&& (o = 1))
+		&& !ISINF(str) && (o = 1))
 		news[0] = str[0];
 	else if ((str[0] == '-' || str[0] == '+') && arg->leftalign && (o = 1))
 		news[0] = str[0];
-	else if ((str[0] == '-' || str[0] == '+') && arg->zeroflag && (o = 1))
+	else if (HASSIGN(str) && arg->zeroflag && !ISINF(str) && (o = 1))
 		news[0] = str[0];
 	else if (arg->spaceflag && !(str[0] == '-' || str[0] == '+') && (sp = 1))
 		news[0] = ' ';

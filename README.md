@@ -9,4 +9,7 @@ Available flags:
   
 New Flags:
   %b - binary version of %x
+  
   %v - reads and prints (or stores) a file, given name of file, or the file descriptor if alt fmt flag is used.
+
+This printf respects field width, precision, allsign, left alignment, and space flags as valid.
